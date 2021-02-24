@@ -1,4 +1,4 @@
-package mk.finki.ukim.reservations.model.exceptions;
+package mk.ukim.finki.reservations.model.exceptions;
 
 public class OutOfStockException extends RuntimeException {
     public OutOfStockException() {

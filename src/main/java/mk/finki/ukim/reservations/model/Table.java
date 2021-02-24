@@ -1,4 +1,4 @@
-package mk.finki.ukim.reservations.model;
+package mk.ukim.finki.reservations.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

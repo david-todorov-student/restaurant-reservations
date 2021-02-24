@@ -1,10 +1,7 @@
-package mk.finki.ukim.reservations.model;
-
-import lombok.Data;
+package mk.ukim.finki.reservations.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.Period;
 
 @Entity
 public class Reservation {
@@ -13,7 +10,7 @@ public class Reservation {
     private Long id;
 
     @ManyToOne
-    private Restaurant restaurant;
+    private Table table;
 
     private LocalDateTime validFrom;
 

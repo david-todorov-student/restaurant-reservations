@@ -1,16 +1,22 @@
-package mk.finki.ukim.reservations.model;
+package mk.ukim.finki.reservations.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import mk.finki.ukim.reservations.model.enumerations.Role;
+import lombok.NoArgsConstructor;
+import mk.ukim.finki.reservations.model.enumerations.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.persistence.Table;
 import java.util.Collection;
 import java.util.Collections;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Table(name = "users")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +37,7 @@ public class User implements UserDetails {
     private boolean isAccountNonLocked = true;
     private boolean isCredentialsNonExpired = true;
     private boolean isEnabled = true;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
