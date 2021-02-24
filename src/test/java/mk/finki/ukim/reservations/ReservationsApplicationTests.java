@@ -1,4 +1,4 @@
-package mk.ukim.finki.reservations;
+package mk.finki.ukim.reservations;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

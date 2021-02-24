@@ -1,9 +1,9 @@
-package mk.ukim.finki.reservations.model;
+package mk.finki.ukim.reservations.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import mk.ukim.finki.reservations.model.enumerations.Role;
+import mk.finki.ukim.reservations.model.enumerations.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Entity
+@javax.persistence.Table(name = "restaurants")
 public class Restaurant implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -44,7 +45,7 @@ public class Restaurant implements UserDetails {
         this.tables.add(table);
     }
 
-    public void removeTable(Table table){
+    public void removeTable(Table table) {
         this.tables.remove(table);
     }
 

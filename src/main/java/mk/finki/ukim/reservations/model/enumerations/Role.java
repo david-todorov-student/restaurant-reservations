@@ -1,4 +1,4 @@
-package mk.ukim.finki.reservations.model.enumerations;
+package mk.finki.ukim.reservations.model.enumerations;
 
 import org.springframework.security.core.GrantedAuthority;
 
