@@ -1,19 +1,24 @@
 package mk.finki.ukim.reservations.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.Period;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@javax.persistence.Table(name = "reservations")
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
-    private Restaurant restaurant;
+    private Table table;
 
     private LocalDateTime validFrom;
 

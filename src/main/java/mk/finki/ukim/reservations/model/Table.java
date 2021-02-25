@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@javax.persistence.Table(name = "tables")
 public class Table {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

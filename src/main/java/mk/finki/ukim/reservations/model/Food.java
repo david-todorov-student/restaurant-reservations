@@ -7,11 +7,13 @@ import mk.finki.ukim.reservations.model.exceptions.OutOfStockException;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "food")
 public class Food {
     @Id
     private String name;
