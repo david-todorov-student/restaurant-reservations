@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -41,6 +42,18 @@ public class Restaurant implements UserDetails {
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER)
     private List<Table> tables;
 
+    public Restaurant(String name, String password, String address, String city, String country, double latitude, double longitude) {
+        this.name = name;
+        this.password = password;
+        this.address = address;
+        this.city = city;
+        this.country = country;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.role = Role.ROLE_RESTAURANT;
+        this.tables = new ArrayList<>();
+    }
+
     public void addTable(Table table) {
         this.tables.add(table);
     }
@@ -56,7 +69,7 @@ public class Restaurant implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(Role.ROLE_RESTAURANT);
+        return Collections.singletonList(role);
     }
 
     @Override
