@@ -6,8 +6,12 @@ import mk.finki.ukim.reservations.model.enumerations.Role;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface RestaurantService {
+    List<Restaurant> listAll();
+
     UserDetails loadRestaurantByName(String s);
 
     Restaurant register(String name, String password, String repeatPassword, String address, String city, String country, double latitude, double longitude);

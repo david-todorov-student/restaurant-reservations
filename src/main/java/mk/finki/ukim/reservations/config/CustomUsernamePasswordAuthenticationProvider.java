@@ -1,5 +1,7 @@
 package mk.finki.ukim.reservations.config;
 
+import mk.finki.ukim.reservations.service.AuthService;
+import mk.finki.ukim.reservations.service.RestaurantService;
 import mk.finki.ukim.reservations.service.UserService;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,10 +15,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomUsernamePasswordAuthenticationProvider implements AuthenticationProvider {
     private final UserService userService;
+    private final RestaurantService restaurantService;
+    private final AuthService authService;
     private final PasswordEncoder passwordEncoder;
 
-    public CustomUsernamePasswordAuthenticationProvider(UserService userService, PasswordEncoder passwordEncoder) {
+    public CustomUsernamePasswordAuthenticationProvider(UserService userService, RestaurantService restaurantService, AuthService authService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.restaurantService = restaurantService;
+        this.authService = authService;
         this.passwordEncoder = passwordEncoder;
     }
 

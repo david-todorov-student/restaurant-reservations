@@ -11,6 +11,8 @@ import mk.finki.ukim.reservations.service.RestaurantService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
 
@@ -18,6 +20,11 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     public RestaurantServiceImpl(RestaurantRepository restaurantRepository) {
         this.restaurantRepository = restaurantRepository;
+    }
+
+    @Override
+    public List<Restaurant> listAll() {
+        return this.restaurantRepository.findAll();
     }
 
     @Override
