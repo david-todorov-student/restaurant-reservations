@@ -1,10 +1,18 @@
-<form>
-    <div class="form-check form-check-inline">
-        <input class="form-check-input" name="role" type="radio" id="ROLE_ADMIN" value="ROLE_ADMIN">
-        <label class="form-check-label" for="ROLE_ADMIN">ROLE_ADMIN</label>
+<div xmlns:th="http://www.thymeleaf.org">
+    <div class="container">
+        <h2 class="form-signin-heading">What would you like to register as?</h2>
+        <h4 class="text-danger" th:if="${error != null}" th:text="${error}"></h4>
+        <form class="form-signin mt-xl-5" method="post" action="/register">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" name="choice" type="radio" id="User" value="User">
+                <label class="form-check-label" for="User">User</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" name="choice" type="radio" id="Restaurant" value="Restaurant">
+                <label class="form-check-label" for="Restaurant">Restaurant</label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Choose</button>
+        </form>
+        <a href="/login" class="btn btn-block btn-light">Already have an account? Login here!</a>
     </div>
-    <div class="form-check form-check-inline">
-        <input class="form-check-input" name="role" type="radio" id="ROLE_USER" value="ROLE_USER">
-        <label class="form-check-label" for="ROLE_USER">ROLE_USER</label>
-    </div>
-</form>
+</div>

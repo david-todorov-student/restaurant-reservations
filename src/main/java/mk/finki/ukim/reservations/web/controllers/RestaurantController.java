@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-@RequestMapping({"/", "/restaurants"})
+@RequestMapping("/restaurants")
 public class RestaurantController {
 
     private final RestaurantService restaurantService;
@@ -36,7 +36,7 @@ public class RestaurantController {
         return "master-template";
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public String registerRestaurant(@RequestParam String name,
                                      @RequestParam String password,
                                      @RequestParam String repeatedPassword,

@@ -31,13 +31,19 @@ public class CustomUsernamePasswordAuthenticationProvider implements Authenticat
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-        if (username.isEmpty() || password.isEmpty()){
+        if (username.isEmpty() || password.isEmpty()) {
             throw new BadCredentialsException("Invalid credentials.");
         }
 
-        UserDetails userDetails = this.userService.loadUserByUsername(username);
+        UserDetails userDetailsUser = this.userService.loadUserByUsername(username);
+        UserDetails userDetailsRestaurant = this.restaurantService.loadRestaurantByName(username);
+        UserDetails userDetails;
 
-        if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+        if (passwordEncoder.matches(password, userDetailsUser.getPassword())) {
+            userDetails = userDetailsUser;
+        } else if (passwordEncoder.matches(password, userDetailsRestaurant.getPassword())) {
+            userDetails = userDetailsRestaurant;
+        } else {
             throw new BadCredentialsException("Password is incorrect!");
         }
 
