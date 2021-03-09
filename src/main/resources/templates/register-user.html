@@ -3,7 +3,7 @@
         <h2 class="text-danger" th:if="${error != null}" th:text="${error}"></h2>
     </div>
     <div class="container">
-        <form class="form-signin mt-xl-5" method="post" action="/register/user">
+        <form class="form-signin mt-xl-5" th:method="post" th:action="@{/register/user}">
             <h2 class="form-signin-heading">Register</h2>
             <p>
                 <label for="username" class="sr-only">Username</label>
@@ -30,13 +30,14 @@
                 <input type="text" id="surname" name="surname" class="form-control" placeholder="Surname" required=""
                        autofocus="">
             </p>
+
             <p>
             <div class="form-check form-check-inline">
                 <input class="form-check-input" name="role" type="radio" id="ROLE_ADMIN" value="ROLE_ADMIN">
                 <label class="form-check-label" for="ROLE_ADMIN">ROLE_ADMIN</label>
             </div>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" name="role" type="radio" id="ROLE_CLIENT" value="ROLE_USER">
+                <input class="form-check-input" name="role" type="radio" id="ROLE_CLIENT" value="ROLE_CLIENT">
                 <label class="form-check-label" for="ROLE_CLIENT">ROLE_CLIENT</label>
             </div>
             </p>

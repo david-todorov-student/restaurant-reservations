@@ -37,7 +37,7 @@ public class LoginController {
             request.getSession().setAttribute("user", user);
             return "redirect:/";
         }
-        catch (Exception exception) {
+        catch (InvalidUserCredentialsException exception) {
             model.addAttribute("error", exception.getMessage());
             model.addAttribute("bodyContent", "login");
             return "master-template";

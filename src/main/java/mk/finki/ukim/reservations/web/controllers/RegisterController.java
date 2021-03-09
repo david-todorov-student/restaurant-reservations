@@ -1,6 +1,8 @@
 package mk.finki.ukim.reservations.web.controllers;
 
 import mk.finki.ukim.reservations.model.enumerations.Role;
+import mk.finki.ukim.reservations.model.exceptions.PasswordsDoNotMatchException;
+import mk.finki.ukim.reservations.model.exceptions.UserAlreadyExistsException;
 import mk.finki.ukim.reservations.service.AuthService;
 import mk.finki.ukim.reservations.service.RestaurantService;
 import mk.finki.ukim.reservations.service.UserService;
@@ -22,7 +24,11 @@ public class RegisterController {
     }
 
     @GetMapping
-    public String getRegisterChoicePage(Model model) {
+    public String getRegisterChoicePage(@RequestParam(required = false) String error, Model model) {
+        if(error != null && !error.isEmpty()){
+            model.addAttribute("error", error);
+        }
+
         model.addAttribute("bodyContent", "register-choice");
         return "master-template";
     }
@@ -32,9 +38,9 @@ public class RegisterController {
                                  Model model) {
         if (choice != null) {
             if (choice.toLowerCase().contains("user")) {
-                return "redirect:/user";
+                return "redirect:/register/user";
             } else if (choice.toLowerCase().contains("restaurant")) {
-                return "redirect:/restaurants/register";
+                return "redirect:/register/restaurants";
             } else {
                 model.addAttribute("error", "Try again.");
                 return "redirect:/";            }
@@ -45,8 +51,11 @@ public class RegisterController {
 
     @GetMapping("/user")
     public String getRegisterUserPage(@RequestParam(required = false) String error, Model model) {
+        if(error != null && !error.isEmpty()){
+            model.addAttribute("error", error);
+        }
+
         model.addAttribute("bodyContent", "register-user");
-        model.addAttribute("error", error);
         return "master-template";
     }
 
@@ -56,13 +65,12 @@ public class RegisterController {
                                @RequestParam String repeatedPassword,
                                @RequestParam String name,
                                @RequestParam String surname,
-                               @RequestParam Role role,
-                               Model model) {
+                               @RequestParam Role role) {
         try {
             this.userService.register(username, password, repeatedPassword, name, surname, role);
             return "redirect:/login";
-        } catch (Exception exception) {
-            return "redirect:/user?error="+exception.getMessage();
+        } catch (PasswordsDoNotMatchException | UserAlreadyExistsException exception) {
+            return "redirect:/register/user?error="+exception.getMessage();
         }
     }
 
