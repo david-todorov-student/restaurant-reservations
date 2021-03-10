@@ -1,9 +1,9 @@
 <div xmlns:th="http://www.thymeleaf.org">
     <div class="container">
-        <h1 th:if="${error != null}" th:text="${error}"></h1>
+        <h1 class="text-danger" th:if="${error != null}" th:text="${error}"></h1>
     </div>
     <div class="container">
-        <form class="form-signin mt-xl-5" method="post" action="/register/restaurants">
+        <form class="form-signin mt-xl-5" th:method="post" th:action="@{/register/restaurant}">
             <h2 class="form-signin-heading">Register</h2>
             <p>
                 <label for="name" class="sr-only">Name</label>

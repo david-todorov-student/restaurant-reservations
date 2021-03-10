@@ -2,8 +2,8 @@ package mk.finki.ukim.reservations.web.controllers;
 
 import mk.finki.ukim.reservations.model.enumerations.Role;
 import mk.finki.ukim.reservations.model.exceptions.PasswordsDoNotMatchException;
+import mk.finki.ukim.reservations.model.exceptions.RestaurantAlreadyExistsException;
 import mk.finki.ukim.reservations.model.exceptions.UserAlreadyExistsException;
-import mk.finki.ukim.reservations.service.AuthService;
 import mk.finki.ukim.reservations.service.RestaurantService;
 import mk.finki.ukim.reservations.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class RegisterController {
 
     private final UserService userService;
+    private final RestaurantService restaurantService;
 
-    public RegisterController(UserService userService) {
+    public RegisterController(UserService userService, RestaurantService restaurantService) {
         this.userService = userService;
+        this.restaurantService = restaurantService;
     }
 
     @GetMapping
@@ -40,7 +42,7 @@ public class RegisterController {
             if (choice.toLowerCase().contains("user")) {
                 return "redirect:/register/user";
             } else if (choice.toLowerCase().contains("restaurant")) {
-                return "redirect:/register/restaurants";
+                return "redirect:/register/restaurant";
             } else {
                 model.addAttribute("error", "Try again.");
                 return "redirect:/";            }
@@ -71,6 +73,34 @@ public class RegisterController {
             return "redirect:/login";
         } catch (PasswordsDoNotMatchException | UserAlreadyExistsException exception) {
             return "redirect:/register/user?error="+exception.getMessage();
+        }
+    }
+
+    @GetMapping("/restaurant")
+    public String getRegisterRestaurantPage(@RequestParam(required = false) String error, Model model){
+        if(error != null && !error.isEmpty()){
+            model.addAttribute("error", error);
+        }
+
+        model.addAttribute("bodyContent", "register-restaurant");
+        return "master-template";
+    }
+
+    @PostMapping("/restaurant")
+    public String registerRestaurant(@RequestParam String name,
+                                    @RequestParam String password,
+                                    @RequestParam String repeatedPassword,
+                                    @RequestParam String address,
+                                    @RequestParam String city,
+                                    @RequestParam String country,
+                                    @RequestParam double latitude,
+                                    @RequestParam double longitude) {
+        try {
+            this.restaurantService.register(name, password, repeatedPassword,
+                    address, city, country, latitude, longitude);
+            return "redirect:/login";
+        } catch (PasswordsDoNotMatchException | RestaurantAlreadyExistsException exception) {
+            return "redirect:/register/restaurant?error="+exception.getMessage();
         }
     }
 

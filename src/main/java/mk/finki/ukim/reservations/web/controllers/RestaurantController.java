@@ -30,31 +30,31 @@ public class RestaurantController {
         return "master-template";
     }
 
-    @GetMapping("/register")
-    public String getRegisterPage(Model model) {
-        model.addAttribute("bodyContent", "register-restaurant");
-        return "master-template";
-    }
-
-    @PostMapping("/register")
-    public String registerRestaurant(@RequestParam String name,
-                                     @RequestParam String password,
-                                     @RequestParam String repeatedPassword,
-                                     @RequestParam String address,
-                                     @RequestParam String city,
-                                     @RequestParam String country,
-                                     @RequestParam Double latitude,
-                                     @RequestParam Double longitude,
-                                     Model model) {
-        try {
-            this.restaurantService.register(name, password, repeatedPassword, address,
-                    city, country, latitude, longitude);
-            return "redirect:/login";
-        } catch (Exception exception) {
-            model.addAttribute("error", exception.getMessage());
-            model.addAttribute("bodyContent", "register-restaurant");
-            return "master-template";
-        }
-    }
+//    @GetMapping("/register")
+//    public String getRegisterPage(Model model) {
+//        model.addAttribute("bodyContent", "register-restaurant");
+//        return "master-template";
+//    }
+//
+//    @PostMapping("/register")
+//    public String registerRestaurant(@RequestParam String name,
+//                                     @RequestParam String password,
+//                                     @RequestParam String repeatedPassword,
+//                                     @RequestParam String address,
+//                                     @RequestParam String city,
+//                                     @RequestParam String country,
+//                                     @RequestParam Double latitude,
+//                                     @RequestParam Double longitude,
+//                                     Model model) {
+//        try {
+//            this.restaurantService.register(name, password, repeatedPassword, address,
+//                    city, country, latitude, longitude);
+//            return "redirect:/login";
+//        } catch (Exception exception) {
+//            model.addAttribute("error", exception.getMessage());
+//            model.addAttribute("bodyContent", "register-restaurant");
+//            return "master-template";
+//        }
+//    }
 
 }
