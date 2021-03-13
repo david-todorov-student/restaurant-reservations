@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -35,16 +36,31 @@ public class CustomUsernamePasswordAuthenticationProvider implements Authenticat
             throw new BadCredentialsException("Invalid credentials.");
         }
 
-        UserDetails userDetailsUser = this.userService.loadUserByUsername(username);
-        UserDetails userDetailsRestaurant = this.restaurantService.loadRestaurantByName(username);
+        UserDetails userDetailsUser = null;
+        UserDetails userDetailsRestaurant = null;
+
+        try {
+            userDetailsUser = this.userService.loadUserByUsername(username);
+        } catch (Exception e) {
+            userDetailsRestaurant = this.restaurantService.loadRestaurantByName(username);
+        }
+
         UserDetails userDetails;
 
-        if (passwordEncoder.matches(password, userDetailsUser.getPassword())) {
-            userDetails = userDetailsUser;
-        } else if (passwordEncoder.matches(password, userDetailsRestaurant.getPassword())) {
-            userDetails = userDetailsRestaurant;
+        if (userDetailsUser != null) {
+            if (passwordEncoder.matches(password, userDetailsUser.getPassword())) {
+                userDetails = userDetailsUser;
+            } else {
+                throw new BadCredentialsException("Password is incorrect!");
+            }
+        } else if (userDetailsRestaurant != null) {
+            if (passwordEncoder.matches(password, userDetailsRestaurant.getPassword())) {
+                userDetails = userDetailsRestaurant;
+            } else {
+                throw new BadCredentialsException("Password is incorrect!");
+            }
         } else {
-            throw new BadCredentialsException("Password is incorrect!");
+            throw new UsernameNotFoundException(username);
         }
 
         return new UsernamePasswordAuthenticationToken(userDetails,

@@ -1,14 +1,13 @@
 package mk.finki.ukim.reservations.service.impl;
 
 import mk.finki.ukim.reservations.model.Restaurant;
-import mk.finki.ukim.reservations.model.User;
 import mk.finki.ukim.reservations.model.exceptions.InvalidUserCredentialsException;
 import mk.finki.ukim.reservations.model.exceptions.PasswordsDoNotMatchException;
 import mk.finki.ukim.reservations.model.exceptions.RestaurantNotFoundException;
-import mk.finki.ukim.reservations.model.exceptions.UserAlreadyExistsException;
 import mk.finki.ukim.reservations.repository.RestaurantRepository;
 import mk.finki.ukim.reservations.service.RestaurantService;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,9 +16,11 @@ import java.util.List;
 public class RestaurantServiceImpl implements RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public RestaurantServiceImpl(RestaurantRepository restaurantRepository) {
+    public RestaurantServiceImpl(RestaurantRepository restaurantRepository, PasswordEncoder passwordEncoder) {
         this.restaurantRepository = restaurantRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -41,7 +42,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         if (!password.equals(repeatPassword))
             throw new PasswordsDoNotMatchException();
 
-        Restaurant restaurant = new Restaurant(name, password, address, city, country, latitude, longitude);
+        Restaurant restaurant = new Restaurant(name, passwordEncoder.encode(password), address, city, country, latitude, longitude);
         return restaurantRepository.save(restaurant);
     }
 }
