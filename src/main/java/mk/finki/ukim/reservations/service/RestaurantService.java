@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface RestaurantService {
@@ -16,4 +17,9 @@ public interface RestaurantService {
 
     Restaurant register(String name, String password, String repeatPassword, String address, String city, String country, double latitude, double longitude);
 
+    List<Restaurant> filterByText(String text);
+
+    void deleteById(Long id);
+
+    Optional<Restaurant> findById(Long id);
 }

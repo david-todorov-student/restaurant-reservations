@@ -10,7 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
@@ -44,5 +45,29 @@ public class RestaurantServiceImpl implements RestaurantService {
 
         Restaurant restaurant = new Restaurant(name, passwordEncoder.encode(password), address, city, country, latitude, longitude);
         return restaurantRepository.save(restaurant);
+    }
+
+    @Override
+    public List<Restaurant> filterByText(String text) {
+        List<Restaurant> byName = this.restaurantRepository.findAllByNameLike("%"+text+"%");
+        List<Restaurant> byAddress = this.restaurantRepository.findAllByAddressLike("%"+text+"%");
+        List<Restaurant> byCity = this.restaurantRepository.findAllByCityLike("%"+text+"%");
+        List<Restaurant> byCountry = this.restaurantRepository.findAllByCountryLike("%"+text+"%");
+        Set<Restaurant> all = new HashSet<>();
+        all.addAll(byName);
+        all.addAll(byAddress);
+        all.addAll(byCountry);
+        all.addAll(byCity);
+        return new ArrayList<>(all);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        this.restaurantRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Restaurant> findById(Long id) {
+        return this.restaurantRepository.findById(id);
     }
 }
