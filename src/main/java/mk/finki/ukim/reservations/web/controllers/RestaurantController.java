@@ -21,13 +21,21 @@ public class RestaurantController {
 
     @GetMapping
     public String getRestaurantsPage(@RequestParam(required = false) String error,
+                                     @RequestParam(required = false) String filterBy,
                                      Model model){
+        
         if(error != null && !error.isEmpty()){
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);
         }
 
-        List<Restaurant> restaurants = this.restaurantService.listAll();
+        List<Restaurant> restaurants;
+
+        if (filterBy != null && !filterBy.isEmpty()) {
+            restaurants = this.restaurantService.filterByText(filterBy);
+        } else {
+            restaurants = this.restaurantService.listAll();
+        }
 
         model.addAttribute("restaurants", restaurants);
         model.addAttribute("bodyContent", "listRestaurants");
@@ -75,9 +83,10 @@ public class RestaurantController {
         return "add-restaurant";
     }
 
+
     @PostMapping("/searched-restaurants")
     public String findAllByText(@RequestParam String text, Model model) {
-        List<Restaurant> restaurants = this.restaurantService.searchByNameOrCity(text);
+        List<Restaurant> restaurants = this.restaurantService.filterByText(text);
         model.addAttribute("restaurants", restaurants);
 
         return "searched-restaurants";

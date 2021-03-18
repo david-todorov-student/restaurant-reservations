@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -68,6 +69,21 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurant.setLatitude(latitude);
 
         return this.restaurantRepository.save(restaurant);
+
+    }
+
+    @Override
+    public List<Restaurant> filterByText(String text) {
+        List<Restaurant> byName = this.restaurantRepository.findAllByNameLike("%"+text+"%");
+        List<Restaurant> byAddress = this.restaurantRepository.findAllByAddressLike("%"+text+"%");
+        List<Restaurant> byCity = this.restaurantRepository.findAllByCityLike("%"+text+"%");
+        List<Restaurant> byCountry = this.restaurantRepository.findAllByCountryLike("%"+text+"%");
+        Set<Restaurant> all = new HashSet<>();
+        all.addAll(byName);
+        all.addAll(byAddress);
+        all.addAll(byCountry);
+        all.addAll(byCity);
+        return new ArrayList<>(all);
     }
 
     @Override
@@ -80,11 +96,11 @@ public class RestaurantServiceImpl implements RestaurantService {
         return this.restaurantRepository.findById(id);
     }
 
-    @Override
-    public List<Restaurant> searchByNameOrCity(String text) {
-        return DataHolder.restaurants.stream()
-                .filter(r -> r.getName().contains(text)
-                            || r.getCity().contains(text))
-                .collect(Collectors.toList());
-    }
+//    @Override
+//    public List<Restaurant> searchByNameOrCity(String text) {
+//        return DataHolder.restaurants.stream()
+//                .filter(r -> r.getName().contains(text)
+//                            || r.getCity().contains(text))
+//                .collect(Collectors.toList());
+//    }
 }

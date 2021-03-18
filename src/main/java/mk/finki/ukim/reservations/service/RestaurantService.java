@@ -19,9 +19,11 @@ public interface RestaurantService {
 
     Restaurant edit(Long id, String name, String address, String city, String country, double longitude, double latitude);
 
+    List<Restaurant> filterByText(String text);
+
     void deleteById(Long id);
 
     Optional<Restaurant> findById(Long id);
 
-    List<Restaurant> searchByNameOrCity(String text);
+//    List<Restaurant> searchByNameOrCity(String text);
 }
