@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,4 +27,10 @@ public class Order {
 
     @ManyToMany
     private List<Drink> drinks;
+
+    public Order(Reservation reservation) {
+        this.reservation = reservation;
+        this.foodList = new ArrayList<>();
+        this.drinks = new ArrayList<>();
+    }
 }

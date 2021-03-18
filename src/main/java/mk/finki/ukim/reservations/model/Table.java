@@ -20,4 +20,9 @@ public class Table {
 
     @ManyToOne
     private Restaurant restaurant;
+
+    public Table(int seats, Restaurant restaurant) {
+        this.seats = seats;
+        this.restaurant = restaurant;
+    }
 }

@@ -34,7 +34,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public UserDetails loadRestaurantByName(String s) {
-        return restaurantRepository.findByName(s).orElseThrow(() -> new RestaurantNotFoundException(s));
+        return restaurantRepository.findByName(s).orElseThrow(RestaurantNotFoundException::new);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public Restaurant edit(Long id, String name, String address, String city, String country, double longitude, double latitude) {
         Restaurant restaurant = this.restaurantRepository.findById(id)
-                .orElseThrow(InvalidRestaurantIdException::new);
+                .orElseThrow(RestaurantNotFoundException::new);
 
         restaurant.setName(name);
         restaurant.setAddress(address);

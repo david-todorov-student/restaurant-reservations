@@ -24,47 +24,47 @@ public class ReservationController {
         this.restaurantService = restaurantService;
     }
 
-    @GetMapping()
-    public String getReservationsByCurrentClient(HttpSession session, Model model) {
-        User user = (User) session.getAttribute("user");
-
-        List<Reservation> reservations = this.reservationService.getPlacedReservationsForUser(user);
-
-        if (reservations.isEmpty()) {
-            model.addAttribute("hasError", true);
-            return "redirect:/restaurants?error=NoReservations";
-        }
-
-        model.addAttribute("reservations", reservations);
-        return "userReservations";
-    }
-
-    @GetMapping("/place/{restaurantId}")
-    public String chooseRestaurantDetails(@PathVariable long restaurantId, Model model) {
-
-        if (this.restaurantService.findById(restaurantId).isPresent()) {
-            model.addAttribute("restaurantId", restaurantId);
-            Restaurant restaurant = this.restaurantService.findById(restaurantId).get();
-            model.addAttribute("restaurant", restaurant);
-            return "chooseFromRestaurantMenu";
-        }
-
-        model.addAttribute("hasError", true);
-        return "redirect:/restaurants?error=RestaurantNotFound";
-    }
-
-    @PostMapping("/place/{restaurantId}")
-    public String makeReservations(@PathVariable long restaurantId,
-                            @RequestParam String clientDeliveryAddress, HttpSession session) {
-
-        User user = (User) session.getAttribute("user");
-        List<Reservation> reservations = reservationService.getAllRestaurantsInUserActiveReservations(user.getUsername());
-
-        if (this.restaurantService.findById(restaurantId).isPresent()) {
-            reservationService.placeReservation(user, clientDeliveryAddress, reservations);
-            return "redirect:/restaurants";
-        }
-
-        return "redirect:/restaurants?error=RestaurantNotAvailable";
-    }
+//    @GetMapping()
+//    public String getReservationsByCurrentClient(HttpSession session, Model model) {
+//        User user = (User) session.getAttribute("user");
+//
+//        List<Reservation> reservations = this.reservationService.getPlacedReservationsForUser(user);
+//
+//        if (reservations.isEmpty()) {
+//            model.addAttribute("hasError", true);
+//            return "redirect:/restaurants?error=NoReservations";
+//        }
+//
+//        model.addAttribute("reservations", reservations);
+//        return "userReservations";
+//    }
+//
+//    @GetMapping("/place/{restaurantId}")
+//    public String chooseRestaurantDetails(@PathVariable long restaurantId, Model model) {
+//
+//        if (this.restaurantService.findById(restaurantId).isPresent()) {
+//            model.addAttribute("restaurantId", restaurantId);
+//            Restaurant restaurant = this.restaurantService.findById(restaurantId).get();
+//            model.addAttribute("restaurant", restaurant);
+//            return "chooseFromRestaurantMenu";
+//        }
+//
+//        model.addAttribute("hasError", true);
+//        return "redirect:/restaurants?error=RestaurantNotFound";
+//    }
+//
+//    @PostMapping("/place/{restaurantId}")
+//    public String makeReservations(@PathVariable long restaurantId,
+//                            @RequestParam String clientDeliveryAddress, HttpSession session) {
+//
+//        User user = (User) session.getAttribute("user");
+//        List<Reservation> reservations = reservationService.getAllRestaurantsInUserActiveReservations(user.getUsername());
+//
+//        if (this.restaurantService.findById(restaurantId).isPresent()) {
+//            reservationService.placeReservation(user, clientDeliveryAddress, reservations);
+//            return "redirect:/restaurants";
+//        }
+//
+//        return "redirect:/restaurants?error=RestaurantNotAvailable";
+//    }
 }

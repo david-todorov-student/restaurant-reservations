@@ -26,4 +26,11 @@ public class Reservation {
 
     @ManyToOne
     private User user;
+
+    public Reservation(Table table, LocalDateTime validFrom, LocalDateTime validUntil, User user) {
+        this.table = table;
+        this.validFrom = validFrom;
+        this.validUntil = validUntil;
+        this.user = user;
+    }
 }
