@@ -54,6 +54,17 @@ public class Restaurant implements UserDetails {
         this.tables = new ArrayList<>();
     }
 
+    public Restaurant(String name, String address, String city, String country, double longitude, double latitude) {
+        this.name = name;
+        this.address = address;
+        this.city = city;
+        this.country = country;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.role = Role.ROLE_RESTAURANT;
+        this.tables = new ArrayList<>();
+    }
+
     public void addTable(Table table) {
         this.tables.add(table);
     }

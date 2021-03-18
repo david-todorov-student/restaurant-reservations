@@ -1,5 +1,6 @@
 package mk.finki.ukim.reservations.web.controllers;
 
+import mk.finki.ukim.reservations.model.Reservation;
 import mk.finki.ukim.reservations.model.Restaurant;
 import mk.finki.ukim.reservations.model.User;
 import mk.finki.ukim.reservations.service.ReservationService;
@@ -24,10 +25,10 @@ public class ReservationController {
     }
 
     @GetMapping()
-    public String getOrdersByCurrentClient(HttpSession session, Model model) {
+    public String getReservationsByCurrentClient(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
 
-        List<Restaurant> reservations = reservationService.getPlacedReservationsForUser(user);
+        List<Reservation> reservations = this.reservationService.getPlacedReservationsForUser(user);
 
         if (reservations.isEmpty()) {
             model.addAttribute("hasError", true);
@@ -39,7 +40,7 @@ public class ReservationController {
     }
 
     @GetMapping("/place/{restaurantId}")
-    public String chooseBalloonDetails(@PathVariable long restaurantId, Model model) {
+    public String chooseRestaurantDetails(@PathVariable long restaurantId, Model model) {
 
         if (this.restaurantService.findById(restaurantId).isPresent()) {
             model.addAttribute("restaurantId", restaurantId);
@@ -53,14 +54,14 @@ public class ReservationController {
     }
 
     @PostMapping("/place/{restaurantId}")
-    public String makeOrder(@PathVariable long restaurantId,
+    public String makeReservations(@PathVariable long restaurantId,
                             @RequestParam String clientDeliveryAddress, HttpSession session) {
 
         User user = (User) session.getAttribute("user");
-        List<Restaurant> restaurants = reservationService.getAllRestaurantsInUserActiveReservations(user.getUsername());
+        List<Reservation> reservations = reservationService.getAllRestaurantsInUserActiveReservations(user.getUsername());
 
         if (this.restaurantService.findById(restaurantId).isPresent()) {
-            reservationService.placeReservation(user, clientDeliveryAddress, restaurants);
+            reservationService.placeReservation(user, clientDeliveryAddress, reservations);
             return "redirect:/restaurants";
         }
 
