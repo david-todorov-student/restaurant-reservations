@@ -1,0 +1,81 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">WEB PROGRAMMING SHOP</h1>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <form action="/restaurants/add" method="POST">
+                    <input id="id" type="hidden" name="id" th:value="(${restaurant} != null ? ${restaurant.getId()} : '')">
+                    <div class="form-group">
+                        <label for="name">Restaurant</label>
+                        <input type="text"
+                               class="form-control"
+                               id="name"
+                               name="name"
+                               th:value="(${restaurant} != null ? ${restaurant.getName()} : '')"
+                               required
+                               placeholder="Enter restaurant name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text"
+                               class="form-control"
+                               id="address"
+                               name="address"
+                               th:value="(${restaurant} != null ? ${restaurant.getAddress()} : '')"
+                               placeholder="Address">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text"
+                               class="form-control"
+                               id="city"
+                               name="city"
+                               th:value="(${restaurant} != null ? ${restaurant.getCity()} : '')"
+                               placeholder="City">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <input type="text"
+                               class="form-control"
+                               id="country"
+                               name="country"
+                               th:value="(${restaurant} != null ? ${restaurant.getCountry()} : '')"
+                               placeholder="Country">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="longitude">Longitude</label>
+                        <input type="number"
+                               class="form-control"
+                               id="longitude"
+                               name="longitude"
+                               th:value="(${restaurant} != null ? ${restaurant.getLongitude()} : '')"
+                               placeholder="Longitude">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="latitude">Latitude</label>
+                        <input type="number"
+                               class="form-control"
+                               id="latitude"
+                               name="latitude"
+                               th:value="(${restaurant} != null ? ${restaurant.getLatitude()} : '')"
+                               placeholder="Latitude">
+                    </div>
+                    <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+                    <a type="button" class="btn btn-primary" href="/restaurants">Back</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</th:block>

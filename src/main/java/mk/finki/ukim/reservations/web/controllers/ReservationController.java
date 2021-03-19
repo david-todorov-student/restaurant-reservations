@@ -23,7 +23,7 @@ public class ReservationController {
         this.reservationService = reservationService;
         this.restaurantService = restaurantService;
     }
-
+//
 //    @GetMapping()
 //    public String getReservationsByCurrentClient(HttpSession session, Model model) {
 //        User user = (User) session.getAttribute("user");

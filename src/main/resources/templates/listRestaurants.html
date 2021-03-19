@@ -48,7 +48,7 @@
                                 </th:block>
                                 <form th:action="@{'/reservations/place/{id}' (id=${restaurant.getId()})}"
                                       th:method="POST"
-                                      sec:authorize="isAuthenticated()">
+                                      sec:authorize="hasRole('ROLE_CLIENT')">
                                     <button type="submit"
                                             class="btn btn-sm btn-primary cart-product">
                                         <i class="fa fa-trash">Make reservations</i>
@@ -62,11 +62,11 @@
             </div>
             <div class="col mb-3">
                 <div class="row">
-                    <div class="col-sm-12 col-md-12" sec:authorize="hasRole('ROLE_ADMIN')">
-                        <a href="/restaurants/add-form" class="btn btn-block btn-dark add-product-btn">
-                            Add new restaurant
-                        </a>
-                    </div>
+<!--                    <div class="col-sm-12 col-md-12" sec:authorize="hasRole('ROLE_ADMIN')">-->
+<!--                        <a href="/restaurants/add-form" class="btn btn-block btn-dark add-product-btn">-->
+<!--                            Add new restaurant-->
+<!--                        </a>-->
+<!--                    </div>-->
                 </div>
             </div>
         </div>
