@@ -8,7 +8,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-5">
-                <form action="/restaurants/add" method="POST">
+                <form action="/restaurants/edit" method="POST">
                     <input id="id" type="hidden" name="id" th:value="(${restaurant} != null ? ${restaurant.getId()} : '')">
                     <div class="form-group">
                         <label for="name">Restaurant</label>

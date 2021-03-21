@@ -39,7 +39,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public Reservation makeReservation(Long tableId, LocalDateTime validFrom, LocalDateTime validUntil, User user, List<Restaurant> restaurants) {
+    public Reservation makeReservation(Long tableId, LocalDateTime validFrom, LocalDateTime validUntil, User user) {
         Table table = this.tableRepository.findById(tableId)
                 .orElseThrow(TableNotFoundException::new);
 //        User user = this.userRepository.findById(userId)
@@ -67,8 +67,8 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public List<Reservation> getPlacedReservationsForUser(User user) {
-        if (user == null) {
-            throw new IllegalArgumentException();
+        if (user == null){
+            throw new UserNotFoundException(user.getUsername());
         }
 
         return reservationRepository.findAllByUser(user);
@@ -77,7 +77,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public List<Restaurant> getAllRestaurantsInUserActiveReservations(String username) {
         Reservation activeReservation = this.getActiveReservation(username);
-        return activeReservation.getRestaurants();
+        return activeReservation.geRestaurants();
     }
 
     @Override

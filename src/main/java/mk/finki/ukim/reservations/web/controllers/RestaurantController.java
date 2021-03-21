@@ -21,7 +21,7 @@ public class RestaurantController {
 
     @GetMapping
     public String getRestaurantsPage(@RequestParam(required = false) String error,
-                                     @RequestParam(required = false) String filterBy,
+                                     @RequestParam(required = false) String text,
                                      Model model){
         
         if(error != null && !error.isEmpty()){
@@ -31,8 +31,8 @@ public class RestaurantController {
 
         List<Restaurant> restaurants;
 
-        if (filterBy != null && !filterBy.isEmpty()) {
-            restaurants = this.restaurantService.filterByText(filterBy);
+        if (text != null && !text.isEmpty()) {
+            restaurants = this.restaurantService.filterByText(text);
         } else {
             restaurants = this.restaurantService.listAll();
         }
@@ -43,7 +43,7 @@ public class RestaurantController {
         return "master-template";
     }
 
-    @PostMapping("/add")
+    @PostMapping("/edit")
     public String saveRestaurant(
             @RequestParam(required = false) Long id,
             @RequestParam String name,
@@ -88,15 +88,15 @@ public class RestaurantController {
 //
 //        return "add-restaurant";
 //    }
-
-
-    @PostMapping("/searched-restaurants")
-    public String findAllByText(@RequestParam String text, Model model) {
-        List<Restaurant> restaurants = this.restaurantService.filterByText(text);
-        model.addAttribute("restaurants", restaurants);
-        model.addAttribute("bodyContent", "searched-restaurants");
-
-        return "master-template";
-    }
+//
+//
+//    @PostMapping("/searched-restaurants")
+//    public String findAllByText(@RequestParam String text, Model model) {
+//        List<Restaurant> restaurants = this.restaurantService.filterByText(text);
+//        model.addAttribute("restaurants", restaurants);
+//        model.addAttribute("bodyContent", "searched-restaurants");
+//
+//        return "master-template";
+//    }
 
 }

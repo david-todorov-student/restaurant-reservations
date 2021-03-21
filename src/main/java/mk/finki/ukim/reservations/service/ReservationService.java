@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public interface ReservationService {
 
-    Reservation makeReservation(Long tableId, LocalDateTime validFrom, LocalDateTime validUntil, User user, List<Restaurant> restaurants);
+    Reservation makeReservation(Long tableId, LocalDateTime validFrom, LocalDateTime validUntil, User user);
 
     void removeReservation(Long id);
 
@@ -20,11 +20,11 @@ public interface ReservationService {
 
     List<Reservation> getPlacedReservationsForUser(User user);
 
-    //Reservation placeReservation(User user, List<Reservation> reservations);
+//    Reservation placeReservation(User user, List<Reservation> reservations);
+
+    Reservation getActiveReservation(String username);
 
     List<Restaurant> getAllRestaurantsInUserActiveReservations(String username);
 
     void changeStatusToFinishedOfActiveReservationList(String username);
-
-    Reservation getActiveReservation(String username);
 }
