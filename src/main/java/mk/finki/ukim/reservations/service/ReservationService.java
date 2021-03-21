@@ -22,9 +22,9 @@ public interface ReservationService {
 
 //    Reservation placeReservation(User user, List<Reservation> reservations);
 
-    Reservation getActiveReservation(String username);
+    Reservation getActiveReservation(Long tableId, LocalDateTime validFrom, LocalDateTime validUntil, String username);
 
-    List<Restaurant> getAllRestaurantsInUserActiveReservations(String username);
+//    List<Restaurant> getAllRestaurantsInUserActiveReservations(String username);
 
-    void changeStatusToFinishedOfActiveReservationList(String username);
+    void changeStatusToFinishedOfActiveReservationList(Long tableId, LocalDateTime validFrom, LocalDateTime validUntil, String username);
 }

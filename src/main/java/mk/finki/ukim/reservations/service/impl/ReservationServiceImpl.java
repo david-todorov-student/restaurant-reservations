@@ -47,7 +47,7 @@ public class ReservationServiceImpl implements ReservationService {
         Reservation reservation = new Reservation(table, validFrom, validUntil, user);
 
         this.reservationRepository.save(reservation);
-        this.reservationService.changeStatusToFinishedOfActiveReservationList(user.getUsername());
+        this.reservationService.changeStatusToFinishedOfActiveReservationList(tableId, validFrom, validUntil, user.getUsername());
 
         return reservation;
     }
@@ -74,28 +74,29 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationRepository.findAllByUser(user);
     }
 
-    @Override
-    public List<Restaurant> getAllRestaurantsInUserActiveReservations(String username) {
-        Reservation activeReservation = this.getActiveReservation(username);
-        return activeReservation.geRestaurants();
-    }
+//    @Override
+//    public List<Restaurant> getAllRestaurantsInUserActiveReservations(String username) {
+//        Reservation activeReservation = this.getActiveReservation(username);
+//        return activeReservation.getRestaurants();
+//    }
 
     @Override
-    public void changeStatusToFinishedOfActiveReservationList(String username) {
-        Reservation activeReservation = this.getActiveReservation(username);
+    public void changeStatusToFinishedOfActiveReservationList(Long tableId, LocalDateTime validFrom, LocalDateTime validUntil, String username) {
+        Reservation activeReservation = this.getActiveReservation(tableId, validFrom, validUntil, username);
         activeReservation.setStatus(ReservationStatus.FINISHED);
         reservationRepository.save(activeReservation);
     }
 
     @Override
-    public Reservation getActiveReservation(String username) {
+    public Reservation getActiveReservation(Long tableId, LocalDateTime validFrom, LocalDateTime validUntil, String username) {
         User user = this.userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException(username));
 
         return this.reservationRepository
-                .findByUsername(user.getUsername())
+                .findByUser(user.getUsername())
                 .orElseGet(() -> {
-                    Reservation reservation = new Reservation(user);
+                    Table table = this.tableRepository.findById(tableId).orElseThrow(TableNotFoundException::new);
+                    Reservation reservation = new Reservation(table, validFrom, validUntil, user);
                     return this.reservationRepository.save(reservation);
                 });
 
