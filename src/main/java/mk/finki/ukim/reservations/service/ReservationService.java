@@ -7,12 +7,13 @@ import mk.finki.ukim.reservations.model.User;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public interface ReservationService {
 
-    Reservation makeReservation(Long tableId, LocalDateTime validFrom, LocalDateTime validUntil, User user);
+    Reservation makeReservation(Long tableId, Date validFrom, Date validUntil, User user, Restaurant restaurant);
 
     void removeReservation(Long id);
 
@@ -22,9 +23,9 @@ public interface ReservationService {
 
 //    Reservation placeReservation(User user, List<Reservation> reservations);
 
-    Reservation getActiveReservation(Long tableId, LocalDateTime validFrom, LocalDateTime validUntil, String username);
+    Reservation getActiveReservation(Long tableId, Date validFrom, Date validUntil, String username, Restaurant restaurant);
 
 //    List<Restaurant> getAllRestaurantsInUserActiveReservations(String username);
 
-    void changeStatusToFinishedOfActiveReservationList(Long tableId, LocalDateTime validFrom, LocalDateTime validUntil, String username);
+    void changeStatusToFinishedOfActiveReservationList(Long tableId, Date validFrom, Date validUntil, String username, Restaurant restaurant);
 }

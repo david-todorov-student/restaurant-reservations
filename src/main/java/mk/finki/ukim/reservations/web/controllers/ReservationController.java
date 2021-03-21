@@ -2,7 +2,9 @@ package mk.finki.ukim.reservations.web.controllers;
 
 import mk.finki.ukim.reservations.model.Reservation;
 import mk.finki.ukim.reservations.model.Restaurant;
+import mk.finki.ukim.reservations.model.Table;
 import mk.finki.ukim.reservations.model.User;
+import mk.finki.ukim.reservations.model.exceptions.RestaurantNotFoundException;
 import mk.finki.ukim.reservations.service.ReservationService;
 import mk.finki.ukim.reservations.service.RestaurantService;
 import org.apache.tomcat.jni.Local;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -38,7 +41,8 @@ public class ReservationController {
         }
 
         model.addAttribute("reservations", reservations);
-        return "userReservations";
+        model.addAttribute("bodyContent", "userReservations");
+        return "master-template";
     }
 
     @GetMapping("/place/{restaurantId}")
@@ -48,7 +52,15 @@ public class ReservationController {
             model.addAttribute("restaurantId", restaurantId);
             Restaurant restaurant = this.restaurantService.findById(restaurantId).get();
             model.addAttribute("restaurant", restaurant);
-            return "chooseFromRestaurantMenu";
+
+            Reservation reservation = new Reservation();
+            model.addAttribute("validFrom", reservation.getValidFrom());
+            model.addAttribute("validUntil", reservation.getValidUntil());
+
+            //TODO: list of tables
+            model.addAttribute("bodyContent", "makeReservations");
+
+            return "master-template";
         }
 
         model.addAttribute("hasError", true);
@@ -58,14 +70,16 @@ public class ReservationController {
     @PostMapping("/place/{restaurantId}")
     public String makeReservations(@PathVariable long restaurantId,
                                    @RequestParam long tableId,
-                                   @RequestParam LocalDateTime validFrom,
-                                   @RequestParam LocalDateTime validTo, HttpSession session) {
+                                   @RequestParam Date validFrom,
+                                   @RequestParam Date validUntil, HttpSession session) {
 
         User user = (User) session.getAttribute("user");
+        Restaurant restaurant = this.restaurantService.findById(restaurantId).orElseThrow(RestaurantNotFoundException::new);
+        //TODO: get table id
 //        List<Restaurant> restaurants = reservationService.getAllRestaurantsInUserActiveReservations(user.getUsername());
 
         if (this.restaurantService.findById(restaurantId).isPresent()) {
-            reservationService.makeReservation(tableId, validFrom, validTo, user);
+            reservationService.makeReservation(tableId, validFrom, validUntil, user, restaurant);
             return "redirect:/restaurants";
         }
 

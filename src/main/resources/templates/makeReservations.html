@@ -1,0 +1,101 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+    <div class="jumbotron text-center">
+        <h1>Review your reservation</h1>
+    </div>
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-md-10">
+                <h3>Your reservation:</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Restaurant</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">City</th>
+                            <th scope="col">Country</th>
+                            <th scope="col">Longitude</th>
+                            <th scope="col">Latitude</th>
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr>
+                            <td th:text="${restaurant.getName()}"></td>
+                            <td th:text="${restaurant.getAddress()}"></td>
+                            <td th:text="${restaurant.getCity()}"></td>
+                            <td th:text="${restaurant.getCountry()}"></td>
+                            <td th:text="${restaurant.getLongitude()}"></td>
+                            <td th:text="${restaurant.getLatitude()}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <form th:method="post" th:action="@{/reservations/place/{id} (id=${restaurantId})}">
+
+                    TODO: insert table options here
+
+                    <div class="form-group">
+                        <label for="validFrom">From:</label>
+                        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"
+                                   th:field="*{validFrom}" id="validFrom" placeholder="ValidFrom"/>
+                            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="validUntil">Until:</label>
+                        <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2"
+                                   th:field="*{validUntil}" id="validUntil" placeholder="ValidUntil"/>
+                            <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a type="button" class="btn btn-primary" href="/restaurants">Back</a>
+
+                    <button type="submit" class="col-md-12 btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Make Reservation
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/assets/moment/moment.min.js}"></script>
+    <script th:src="@{/assets/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js}"></script>
+
+    <script>
+        $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+            icons: {
+                time: 'far fa-clock',
+                date: 'far fa-calendar',
+                up: 'fas fa-arrow-up',
+                down: 'fas fa-arrow-down',
+                previous: 'fas fa-chevron-left',
+                next: 'fas fa-chevron-right',
+                today: 'far fa-calendar-check-o',
+                clear: 'far fa-trash',
+                close: 'far fa-times'
+            } });
+
+        $('#datetimepicker1').datetimepicker({
+            format: 'DD/MM/YYYY h:mm A'
+        });
+
+        $('#datetimepicker2').datetimepicker({
+            format: 'DD/MM/YYYY h:mm A'
+        });
+    </script>
+
+
+</th:block>
