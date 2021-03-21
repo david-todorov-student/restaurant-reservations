@@ -25,4 +25,6 @@ public interface ReservationService {
     List<Restaurant> getAllRestaurantsInUserActiveReservations(String username);
 
     void changeStatusToFinishedOfActiveReservationList(String username);
+
+    Reservation getActiveReservation(String username);
 }

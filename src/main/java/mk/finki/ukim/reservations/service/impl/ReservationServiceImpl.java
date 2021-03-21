@@ -6,6 +6,7 @@ import mk.finki.ukim.reservations.model.Table;
 import mk.finki.ukim.reservations.model.User;
 import mk.finki.ukim.reservations.model.exceptions.RestaurantNotFoundException;
 import mk.finki.ukim.reservations.model.exceptions.TableNotFoundException;
+import mk.finki.ukim.reservations.model.exceptions.UserNotFoundException;
 import mk.finki.ukim.reservations.repository.ReservationRepository;
 import mk.finki.ukim.reservations.repository.RestaurantRepository;
 import mk.finki.ukim.reservations.repository.TableRepository;
@@ -76,7 +77,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public List<Restaurant> getAllRestaurantsInUserActiveReservations(String username) {
         Reservation activeReservation = this.getActiveReservation(username);
-        return activeReservation.geRestaurants();
+        return activeReservation.getRestaurants();
     }
 
     @Override
@@ -86,5 +87,18 @@ public class ReservationServiceImpl implements ReservationService {
         reservationRepository.save(activeReservation);
     }
 
+    @Override
+    public Reservation getActiveReservation(String username) {
+        User user = this.userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
+
+        return this.reservationRepository
+                .findByUsername(user.getUsername())
+                .orElseGet(() -> {
+                    Reservation reservation = new Reservation(user);
+                    return this.reservationRepository.save(reservation);
+                });
+
+    }
 
 }
