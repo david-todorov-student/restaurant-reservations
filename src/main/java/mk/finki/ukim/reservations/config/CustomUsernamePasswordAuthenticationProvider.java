@@ -42,7 +42,11 @@ public class CustomUsernamePasswordAuthenticationProvider implements Authenticat
         try {
             userDetailsUser = this.userService.loadUserByUsername(username);
         } catch (Exception e) {
+        }
+
+        try {
             userDetailsRestaurant = this.restaurantService.loadRestaurantByName(username);
+        } catch (Exception e) {
         }
 
         UserDetails userDetails;

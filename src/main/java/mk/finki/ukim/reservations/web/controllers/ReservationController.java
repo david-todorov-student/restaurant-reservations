@@ -62,10 +62,10 @@ public class ReservationController {
                                    @RequestParam LocalDateTime validTo, HttpSession session) {
 
         User user = (User) session.getAttribute("user");
-        List<Restaurant> restaurants = reservationService.getAllRestaurantsInUserActiveReservations(user.getUsername());
+//        List<Restaurant> restaurants = reservationService.getAllRestaurantsInUserActiveReservations(user.getUsername());
 
         if (this.restaurantService.findById(restaurantId).isPresent()) {
-            reservationService.makeReservation(tableId, validFrom, validTo, user, restaurants);
+            reservationService.makeReservation(tableId, validFrom, validTo, user);
             return "redirect:/restaurants";
         }
 
