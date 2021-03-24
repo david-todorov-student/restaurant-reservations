@@ -38,15 +38,15 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public Reservation makeReservation(Long tableId, Date validFrom, Date validUntil, User user, Restaurant restaurant) {
-        Table table = this.tableRepository.findById(tableId)
-                .orElseThrow(TableNotFoundException::new);
+    public Reservation makeReservation(Table table, Date validFrom, Date validUntil, User user, Restaurant restaurant) {
+//        Table table = this.tableRepository.findById(tableId)
+//                .orElseThrow(TableNotFoundException::new);
 //        User user = this.userRepository.findById(userId)
 //                .orElseThrow(UserNotFoundException::new);
         Reservation reservation = new Reservation(table, validFrom, validUntil, user, restaurant);
 
         this.reservationRepository.save(reservation);
-        this.changeStatusToFinishedOfActiveReservationList(tableId, validFrom, validUntil, user.getUsername(), restaurant);
+        this.changeStatusToFinishedOfActiveReservationList(table, validFrom, validUntil, user.getUsername(), restaurant);
 
         return reservation;
     }
@@ -80,21 +80,21 @@ public class ReservationServiceImpl implements ReservationService {
 //    }
 
     @Override
-    public void changeStatusToFinishedOfActiveReservationList(Long tableId, Date validFrom, Date validUntil, String username, Restaurant restaurant) {
-        Reservation activeReservation = this.getActiveReservation(tableId, validFrom, validUntil, username, restaurant);
+    public void changeStatusToFinishedOfActiveReservationList(Table table, Date validFrom, Date validUntil, String username, Restaurant restaurant) {
+        Reservation activeReservation = this.getActiveReservation(table, validFrom, validUntil, username, restaurant);
         activeReservation.setStatus(ReservationStatus.FINISHED);
         reservationRepository.save(activeReservation);
     }
 
     @Override
-    public Reservation getActiveReservation(Long tableId, Date validFrom, Date validUntil, String username, Restaurant restaurant) {
+    public Reservation getActiveReservation(Table table, Date validFrom, Date validUntil, String username, Restaurant restaurant) {
         User user = this.userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException(username));
 
         return this.reservationRepository
                 .findByUser(user.getUsername())
                 .orElseGet(() -> {
-                    Table table = this.tableRepository.findById(tableId).orElseThrow(TableNotFoundException::new);
+//                    Table table = this.tableRepository.findById(tableId).orElseThrow(TableNotFoundException::new);
                     Reservation reservation = new Reservation(table, validFrom, validUntil, user, restaurant);
                     return this.reservationRepository.save(reservation);
                 });

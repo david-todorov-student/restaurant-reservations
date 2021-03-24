@@ -33,8 +33,17 @@
                     </table>
                 </div>
                 <form th:method="post" th:action="@{/reservations/place/{id} (id=${restaurantId})}">
+                    <div class="form-group">
+                        <label for="tableId">Choose table for:</label>
+                        <select id="tableId" name="tableId" class="form-control">
+<!--                            <option th:value="">   </option>-->
+                            <option th:each="t : ${tables}" th:value="${t.getId()}" th:text="${t.getSeats()}"></option>
+                        </select>
+                        <label> persons</label>
+                    </div>
 
-                    TODO: insert table options here
+                    <br>
+                    <br>
 
                     <div class="form-group">
                         <label for="validFrom">From:</label>
@@ -47,6 +56,9 @@
                         </div>
                     </div>
 
+                    <br>
+                    <br>
+
                     <div class="form-group">
                         <label for="validUntil">Until:</label>
                         <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
@@ -57,6 +69,9 @@
                             </div>
                         </div>
                     </div>
+
+                    <br>
+                    <br>
 
                     <a type="button" class="btn btn-primary" href="/restaurants">Back</a>
 

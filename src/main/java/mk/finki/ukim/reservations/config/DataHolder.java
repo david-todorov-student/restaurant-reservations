@@ -21,8 +21,10 @@ public class DataHolder {
     public static List<Table> tables = new ArrayList<>();
 
 
-//    @PostConstruct
-//    public void initData(){
-//
-//    }
+    @PostConstruct
+    public void initData(){
+        for(int i=1; i<=5; i++){
+            tables.add(new Table(2*i));
+        }
+    }
 }
